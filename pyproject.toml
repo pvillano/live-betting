@@ -1,15 +1,5 @@
-[tool.poetry]
+[project]
 name = "live-betting"
 version = "0.1.0"
-description = ""
-authors = ["Peter (Rocky) Villano <peter.s.villano@gmail.com>"]
-readme = "README.md"
-packages = [{include = "live_betting"}]
-
-[tool.poetry.dependencies]
-python = "^3.11"
-
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires-python = ">=3.14"
+dependencies = []
