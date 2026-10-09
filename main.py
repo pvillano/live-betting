@@ -1,4 +1,5 @@
 import csv
+from itertools import groupby
 
 
 def bball(file_name):
@@ -17,23 +18,20 @@ def bball(file_name):
 
 
 def main():
-    test_file = "basketball_data/2019-20_pbp.csv"
-    prev_split = 999
-    prev_id = "asdfawef"
     rows = 0
     out_rows = 0
-    with open("out.csv", "w") as f:
-        f.write("id,time,winner_diff\n")
-        for line in bball(test_file):
-            game_id, time, winner_diff = line
-            rows += 1
-            if winner_diff == prev_split and game_id == prev_id:
-                continue
-            prev_id = game_id
-            prev_split = winner_diff
-            f.write(",".join(map(str, line)) + "\n")
-            out_rows += 1
-    print(f"Wrote {out_rows} out of {rows} rows to out.csv")
+    test_file = "basketball_data/2019-20_pbp.csv"
+    for k, group in groupby(bball(test_file), lambda x: x[0]):
+        with open(f"out/{k}.csv", "w+", encoding="utf-8") as f:
+            f.write("time,winner_diff\n")
+            prev_diff = 999
+            for game_id, time, winner_diff in group:
+                rows += 1
+                if prev_diff != winner_diff:
+                    f.write(f"{time}, {winner_diff}\n")
+                    out_rows += 1
+                prev_diff = winner_diff
+    print(f"Wrote {out_rows} out of {rows} rows")
 
 
 if __name__ == '__main__':
